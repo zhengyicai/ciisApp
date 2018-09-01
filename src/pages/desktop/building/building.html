@@ -1,0 +1,95 @@
+
+<!--搜索区域-->
+<div class="search-box">
+
+</div>
+
+<div class="container-fluid building">
+    <div class="row">
+        <div class="col-xs-2 text-left" style="padding:0">
+            <tree [tree]="tree" (nodeSelected)="onNodeSelected($event)"></tree>
+        </div>
+        <div class="col-xs-10">
+            <!--数据显示区域-->
+            <div class="table-box">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr class="active">
+                            <th>楼栋编号</th>
+                            <th>楼栋名称</th>
+                            <th>单元数</th>
+                            <th>层数</th>
+                            <th>层户数</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of httpService.items">
+                            <td>{{item.buildingNo}}</td>
+                            <td>{{item.buildingName}}</td>
+                            <td>{{item.unitNumber}}</td>
+                            <td>{{item.floorNumber}}</td>
+                            <td>{{item.roomNumber}}</td>
+                            <td>{{utils.formatState(item.state)}}</td>
+                            <td>
+                                <button *ngIf="item.state==='10'" type="button" (click)="updateState(item.id,'20')" class="btn btn-danger btn-xs">禁用</button>
+                                <button *ngIf="item.state==='20'" type="button" (click)="updateState(item.id,'10')" class="btn btn-success btn-xs">启用</button>
+                                <button *ngIf="item.floorNumber===0" type="button" (click)="createRoom(item)" class="btn btn-warning btn-xs">生成房间</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--分页区域-->
+            <div class="pagination-box text-center">
+                <ul class="pagination">
+                    <li [class]="httpService.currentPage==1?'active':''">
+                        <a href="javascript:;" (click)="httpService.toFirstPage()">首页</a>
+                    </li>
+                    <li [class]="httpService.currentPage==1?'disabled':''">
+                        <a href="javascript:;"  (click)="httpService.prev()">上一页</a>
+                    </li>
+                    <li class="disabled"><a href="javascript:;">第{{httpService.currentPage}}页 | 共{{httpService.totalPage}}页</a></li>
+                    <li [class]="httpService.currentPage==httpService.totalPage?'disabled':''">
+                        <a href="javascript:;" (click)="httpService.next()">下一页</a>
+                    </li>
+                    <li [class]="httpService.currentPage==httpService.totalPage?'active':''">
+                        <a href="javascript:;" (click)="httpService.toEndPage()">末页</a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!--生成房间页面-->
+<div id="editPanel" class="form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-4 control-label">单元数</label>
+        <div class="col-sm-8">
+            <select class="form-control" name="unitNumber" [(ngModel)]="subData.unitNumber">
+                <option *ngFor="let opt of httpService.getArray(5)" value="{{opt}}">{{opt}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">楼层数</label>
+        <div class="col-sm-8">
+            <select class="form-control" name="floorNumber" [(ngModel)]="subData.floorNumber">
+                <option *ngFor="let opt of httpService.getArray(50)" value="{{opt}}">{{opt}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">层户数</label>
+        <div class="col-sm-8">
+            <select class="form-control" name="roomNumber" [(ngModel)]="subData.roomNumber">
+                <option *ngFor="let opt of httpService.getArray(10)" value="{{opt}}">{{opt}}</option>
+            </select>
+        </div>
+    </div>
+</div>

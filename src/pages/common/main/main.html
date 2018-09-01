@@ -1,0 +1,72 @@
+<!-- 头部导航条 -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <span class="navbar-brand">云端智能管理</span>
+            <span class="navbar-left">
+                <img [src]="userImg" class="userImg">
+            </span>
+            <span class="navbar-text navbar-right" style="font-size:15px;color:#fff;">
+                {{userName}}
+            </span>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="javascript:;" ><span class="glyphicon glyphicon-user"></span>设置</a></li>
+                <li><a href="javascript:;" (click)="loginOut()"><span class="glyphicon glyphicon-log-out"></span>退出</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- 左边菜单 -->
+<aside class="leftPanel">
+    <nav class="sidebar-nav">
+        <ul class="metismenu" id="menu">
+            <li class="{{item.resOpen=='10'?'active':''}}" *ngFor="let item of parentMenuData">
+                <a href="javascript:void(0);">
+                    <i [class]="item.resIcon"></i>
+                    <span class="sidebar-nav-item">{{item.resName}}</span>
+                    <i class="fa arrow"></i>
+                </a>
+                <ul>
+                    <li *ngFor="let node of getChilderMenu(item.id)"><a href="javascript:void(0);" (click)="showTitle(item.resName,node.resName,node.resPath)">{{node.resName}}</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</aside>
+
+<!-- 隐藏按钮 -->
+<div class="displayArrow">
+    <a href="javascript:void(0);" [class]='linkCls' (click)="displayMenu()"></a>
+</div>
+
+<!-- 右边内容 -->
+<section class="rightpanel">
+    <!-- 显示导航信息 -->
+    <nav class="navTitle">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <i class="fa fa-home"> 位置：</i>
+                    <span> {{menuParent}}</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"> {{menuName}}</i>
+                </div>
+                <div class="col-md-6 text-right">
+
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- 工作区域 -->
+    <div class="articleWork">
+        <router-outlet></router-outlet>
+    </div>
+</section>

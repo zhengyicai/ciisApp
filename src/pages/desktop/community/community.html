@@ -1,0 +1,130 @@
+
+<!--搜索区域-->
+<div class="search-box">
+
+</div>
+
+<!--按钮区域-->
+<div class="button-box text-right">
+    <button type="button" class="btn btn-primary" (click)="showAddPanel()"><span class="fa fa-plus-circle"></span> 新增</button>
+</div>
+
+<!--数据显示区域-->
+<div class="table-box">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr class="active">
+                <th>小区编号</th>
+                <th>小区名称</th>
+                <th>省份</th>
+                <th>城市</th>
+                <th>区县</th>
+                <th>地址</th>
+                <th>创建时间</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of httpService.items">
+                <td>{{item.communityNo}}</td>
+                <td>{{item.communityName}}</td>
+                <td>{{item.province}}</td>
+                <td>{{item.city}}</td>
+                <td>{{item.area}}</td>
+                <td>{{item.address}}</td>
+                <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
+                <td>{{utils.formatState(item.state)}}</td>
+                <td>
+                    <button type="button" (click)="showEditPanel(item)" class="btn btn-info btn-xs">编辑</button>
+                    <button type="button" (click)="showAdmin(item)" class="btn btn-warning btn-xs">管理员</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--分页区域-->
+<div class="pagination-box text-center">
+    <ul class="pagination">
+        <li [class]="httpService.currentPage==1?'active':''">
+            <a href="javascript:;" (click)="httpService.toFirstPage()">首页</a>
+        </li>
+        <li [class]="httpService.currentPage==1?'disabled':''">
+            <a href="javascript:;"  (click)="httpService.prev()">上一页</a>
+        </li>
+        <li class="disabled"><a href="javascript:;">第{{httpService.currentPage}}页 | 共{{httpService.totalPage}}页</a></li>
+        <li [class]="httpService.currentPage==httpService.totalPage?'disabled':''">
+            <a href="javascript:;" (click)="httpService.next()">下一页</a>
+        </li>
+        <li [class]="httpService.currentPage==httpService.totalPage?'active':''">
+            <a href="javascript:;" (click)="httpService.toEndPage()">末页</a>
+        </li>
+    </ul>
+</div>
+
+<!--新增页面-->
+<div id="editPanel" class="form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-4 control-label"><span class="text-danger">*</span>&nbsp;小区名</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="communityName" [(ngModel)]="subData.communityName" placeholder="请输入小区名"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label"><span class="text-danger">*</span>&nbsp;楼栋数</label>
+        <div class="col-sm-8">
+            <input type="number" [disabled]="isEdit" class="form-control" min="1" max="99" id="buildingNum" [(ngModel)]="subData.buildingNum" placeholder="请输入楼栋数"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">省份</label>
+        <div class="col-sm-8">
+            <select #province class="form-control" (change)="selectProvince(province)" name="provinceCode"  [(ngModel)]="subData.provinceCode">
+                <option *ngFor="let opt of provinces" value="{{opt.code}}">{{opt.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">城市</label>
+        <div class="col-sm-8">
+            <select #city class="form-control" name="cityCode" (change)="selectCity(city)"  [(ngModel)]="subData.cityCode">
+                <option *ngFor="let opt of citys" value="{{opt.code}}">{{opt.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">区县</label>
+        <div class="col-sm-8">
+            <select #area class="form-control" name="areaCode" (change)="selectArea(area)"  [(ngModel)]="subData.areaCode">
+                <option *ngFor="let opt of areas" value="{{opt.code}}">{{opt.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label"><span class="text-danger">*</span>&nbsp;地址</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="address" [(ngModel)]="subData.address" placeholder="请输入地址"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">&nbsp;状态</label>
+        <div class="col-sm-8">
+            <label class="radio-inline">
+                <input type="radio" name="state" value="10" [(ngModel)]="subData.state">正常
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="state" value="20" [(ngModel)]="subData.state">禁用
+            </label>
+        </div>
+    </div>
+</div>
+
+<!--关联管理员页面-->
+<div id="adminPanel" class="form-horizontal">
+    <div class="form-group" style="height:120px;">
+        <label class="col-sm-4 text-left" *ngFor="let a of admins">
+            <input type="checkbox" [(ngModel)]="a.checked" value="{{a.userId}}"/>{{a.userName}}
+        </label>
+    </div>
+</div>

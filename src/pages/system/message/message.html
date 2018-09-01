@@ -1,0 +1,101 @@
+
+<!--搜索区域-->
+<div class="search-box">
+
+</div>
+
+<!--按钮区域-->
+<div class="button-box text-right">
+    <button type="button" class="btn btn-primary" (click)="showAddPanel()"><span class="fa fa-plus-circle"></span> 群发消息</button>
+</div>
+
+<!--数据显示区域-->
+<div class="table-box">
+    <table class="table table-bordered table-hover" class="table table-bordered table-hover" style="table-layout:fixed;">
+        <thead>
+            <tr class="active">
+                <th>标题</th>
+                <th>图片</th>
+                <th>内容</th>
+                <th>接收对象</th>
+                <th>发送时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of httpService.items">
+                <td>{{item.title}}</td>
+                <td style="padding:2px;"><img [src]="item.img?imgUrl+item.img:''" [hidden]="!item.img" class="img-rounded"  style="width:120px;height:40px;cursor:pointer;" (click)="showImg(imgUrl+item.img)"></td>
+                <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{{item.content}}</td>
+                <td>{{item.sendee}}</td>
+                <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
+                <td>
+                    <button type="button" (click)="deleteItem(item)" class="btn btn-danger btn-xs">删除</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--分页区域-->
+<div class="pagination-box text-center">
+    <ul class="pagination">
+        <li [class]="httpService.currentPage==1?'active':''">
+            <a href="javascript:;" (click)="httpService.toFirstPage()">首页</a>
+        </li>
+        <li [class]="httpService.currentPage==1?'disabled':''">
+            <a href="javascript:;"  (click)="httpService.prev()">上一页</a>
+        </li>
+        <li class="disabled"><a href="javascript:;">第{{httpService.currentPage}}页 | 共{{httpService.totalPage}}页</a></li>
+        <li [class]="httpService.currentPage==httpService.totalPage?'disabled':''">
+            <a href="javascript:;" (click)="httpService.next()">下一页</a>
+        </li>
+        <li [class]="httpService.currentPage==httpService.totalPage?'active':''">
+            <a href="javascript:;" (click)="httpService.toEndPage()">末页</a>
+        </li>
+    </ul>
+</div>
+
+<!--新增页面-->
+<div id="editPanel" class="form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">&nbsp;接收者</label>
+        <div class="col-sm-10 form-inline">
+            <select #community class="form-control" (change)="selectCommunity(community.selectedIndex)" [(ngModel)]="subData.communityId">
+                <option *ngFor="let opt of communitys" value="{{opt.id}}">{{opt.value}}</option>
+            </select>
+            <select #building class="form-control" (change)="selectBuild(building.selectedIndex)" [(ngModel)]="subData.buildingId">
+                <option value="">所有</option>
+                <option *ngFor="let opt of buildings" value="{{opt.value}}">{{opt.name}}</option>
+            </select>
+            <select #unit class="form-control" (change)="selectUnit(unit.selectedIndex)" [(ngModel)]="subData.unitId">
+                <option value="">所有</option>
+                <option *ngFor="let opt of units" value="{{opt.value}}">{{opt.name}}</option>
+            </select>
+            <select #room class="form-control" (change)="selectRoom(room.selectedIndex)" [(ngModel)]="subData.roomId">
+                <option value="">所有</option>
+                <option *ngFor="let opt of rooms" value="{{opt.value}}">{{opt.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label"><span class="text-danger">*</span>&nbsp;标题</label>
+        <div class="col-sm-10">
+            <input type="text" maxlength="50" class="form-control" id="title" [(ngModel)]="subData.title" placeholder="请输入标题"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">&nbsp;图片</label>
+        <div class="col-sm-10">
+            <input type="file" id="uploadInput" style="display:none;" imageUpload (imageSelected)="selected($event)" [resizeOptions]="resizeOptions" accept="image/png,image/jpeg,image/gif,image/jpg">
+            <img [src]="src" (click)="uploadImg()" [hidden]="!src" class="img-rounded" style="width:150px;height:70px;cursor: pointer;">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label"><span class="text-danger">*</span>&nbsp;内容</label>
+        <div class="col-sm-10">
+            <textarea class="form-control" maxlength="500" id="content" [(ngModel)]="subData.content" placeholder="请输入参数描述" rows="4"></textarea>
+        </div>
+    </div>
+
+</div>

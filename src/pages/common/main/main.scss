@@ -1,0 +1,173 @@
+.userImg{
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    margin: 8px 0 0 100px;
+}
+
+
+.leftPanel{
+    position: absolute;
+    top: 52px;
+    bottom: 0;
+    left: 0;
+    padding-top: 10px;
+    width: 200px;
+    z-index: 99;
+    overflow: auto;
+    background-color: rgba(238, 238, 238, 0.98);
+    border-right: 1px solid #e5e5e5;
+    /*左侧菜单*/
+    .menu_dropdown{
+        dl{
+            margin-bottom:0;
+        }
+        dt{
+            display:block;
+            line-height:35px;
+            padding-left:15px;
+            cursor:pointer;
+            position:relative;
+            border-bottom: 1px solid #e5e5e5;
+            font-weight:normal;
+            .glyphicon-chevron-down{
+                position:absolute;
+                overflow: hidden;
+                top:10px;
+                right:15px;
+                transition-duration:0.3s ;
+                transition-property:all
+            }
+        }
+        dd{
+            display:none
+        }
+        dt.selected .glyphicon-chevron-down{
+            transform: rotate(180deg)
+        }
+        dd.selected{
+            display:block;
+            margin-left:0px;
+            ul{
+                padding:3px 8px;
+            }
+            li{
+                line-height:32px;
+                a{
+                    line-height:32px;
+                    padding-left:26px;
+                    border-bottom:none;
+                    font-weight:normal;
+                }
+            }
+
+        }
+        ul{
+            padding:0px
+        }
+        li{
+            line-height:35px;
+            overflow:hidden;
+            zoom:1;
+            a{
+                padding-left:15px;
+                display:block;
+                font-weight: bold;
+                margin:0;
+                i{
+                    font-weight: normal
+                }
+            }
+            a:hover{
+                text-decoration:none
+            }
+        }
+        li.current{
+            a,a:hover{
+                background-color:rgba(255,255,255,0.2)
+            }
+        }
+    }
+
+}
+
+.displayArrow{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 200px;
+    width: 0px;
+    height: 100%;
+    z-index: 10;
+    a{
+        position: absolute;
+        display: block;
+        left: 0;
+        width: 16px;
+        height: 61px;
+        top: 50%;
+        margin-top: -30px;
+        outline: none;
+        background: url('/assets/images/icon_arrow.png') no-repeat 0 0;
+    }
+
+    a:hover{
+        text-decoration: none;
+        background-position: right 0;
+    }
+
+    a.open{
+        background-position: 0 -61px;
+    }
+
+    a.open:hover {
+        background-position: right -61px;
+    }
+}
+
+.big-page{
+    .rightpanel{
+        left:0px;
+    }
+
+    .displayArrow{
+        left:0px;
+    }
+
+    .leftPanel{
+        left:-200px
+    }
+}
+
+.rightpanel{
+    position: absolute;
+    top: 52px;
+    right: 0;
+    bottom: 0;
+    left: 200px;
+    overflow: hidden;
+    z-index: 1;
+    background-color: #fff;
+
+    .navTitle{
+        background: #f5f5f5;
+        padding: 0 5px;
+        position: relative;
+        z-index: 99;
+        border-bottom: 1px solid #e5e5e5;
+        line-height: 39px;
+        height: 39px;
+        overflow: hidden;
+    }
+
+    .articleWork{
+        position: absolute;
+        top: 34px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: auto;
+        z-index: 1;
+        padding: 20px;
+    }
+}
