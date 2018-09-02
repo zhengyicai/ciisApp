@@ -22,6 +22,8 @@
                 <th>地址</th>
                 <th>创建时间</th>
                 <th>状态</th>
+                <th>物业员用户名</th>
+                <th>物业员状态</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -35,9 +37,14 @@
                 <td>{{item.address}}</td>
                 <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
                 <td>{{utils.formatState(item.state)}}</td>
+                <td>{{item.userName}}</td>
+                <td>{{utils.formatState(item.userStatus)}}</td>
                 <td>
                     <button type="button" (click)="showEditPanel(item)" class="btn btn-info btn-xs">编辑</button>
-                    <button type="button" (click)="showAdmin(item)" class="btn btn-warning btn-xs">管理员</button>
+                    <!-- <button type="button" (click)="showAdmin(item)" class="btn btn-warning btn-xs">管理员</button> -->
+                    <button type="button" *ngIf= 'item.sysUserId =="" ||  item.sysUserId ==null' (click)="showAddUser(item)" class="btn btn-info btn-xs">新增物业</button>
+                    <button type="button" *ngIf= 'item.sysUserId !="" && item.sysUserId !=null' (click)="showUpdateUser(item)" class="btn btn-warning btn-xs">修改物业</button>
+                    <button type="button" *ngIf= 'item.sysUserId !="" && item.sysUserId !=null'  (click)="deleteItem(item)" class="btn btn-danger btn-xs">删除物业</button>
                 </td>
             </tr>
         </tbody>
@@ -65,59 +72,137 @@
 
 <!--新增页面-->
 <div id="editPanel" class="form-horizontal">
-    <div class="form-group">
-        <label class="col-sm-4 control-label"><span class="text-danger">*</span>&nbsp;小区名</label>
-        <div class="col-sm-8">
-            <input type="text" class="form-control" id="communityName" [(ngModel)]="subData.communityName" placeholder="请输入小区名"/>
+    
+    <div *ngIf="showdiv==1">
+        <div class="form-group">
+            <label class="col-sm-4 control-label"><span class="text-danger">*</span>&nbsp;小区名</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="communityName" [(ngModel)]="subData.communityName" placeholder="请输入小区名"/>
+            </div>
+        </div>
+        <!-- <div class="form-group">
+            <label class="col-sm-4 control-label"><span class="text-danger">*</span>&nbsp;楼栋数</label>
+            <div class="col-sm-8">
+                <input type="number" [disabled]="isEdit" class="form-control" min="1" max="99" id="buildingNum" [(ngModel)]="subData.buildingNum" placeholder="请输入楼栋数"/>
+            </div>
+        </div> -->
+        <div class="form-group">
+            <label class="col-sm-4 control-label"><span class="text-danger">*</span>&nbsp;主机数</label>
+            <div class="col-sm-8">
+                <input type="number" class="form-control" min="1" max="99" id="masterNum" [(ngModel)]="subData.masterNum" placeholder="请输入主机数"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label"><span class="text-danger">*</span>&nbsp;住户数</label>
+            <div class="col-sm-8">
+                <input type="number"  class="form-control" min="1" max="99" id="masterNum" [(ngModel)]="subData.userNum" placeholder="请输入住户数"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">省份</label>
+            <div class="col-sm-8">
+                <select #province class="form-control" (change)="selectProvince(province)" name="provinceCode"  [(ngModel)]="subData.provinceCode">
+                    <option *ngFor="let opt of provinces" value="{{opt.code}}">{{opt.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">城市</label>
+            <div class="col-sm-8">
+                <select #city class="form-control" name="cityCode" (change)="selectCity(city)"  [(ngModel)]="subData.cityCode">
+                    <option *ngFor="let opt of citys" value="{{opt.code}}">{{opt.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">区县</label>
+            <div class="col-sm-8">
+                <select #area class="form-control" name="areaCode" (change)="selectArea(area)"  [(ngModel)]="subData.areaCode">
+                    <option *ngFor="let opt of areas" value="{{opt.code}}">{{opt.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label"><span class="text-danger">*</span>&nbsp;地址</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="address" [(ngModel)]="subData.address" placeholder="请输入地址"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">&nbsp;状态</label>
+            <div class="col-sm-8">
+                <label class="radio-inline">
+                    <input type="radio" name="state" value="10" [(ngModel)]="subData.state">正常
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="state" value="20" [(ngModel)]="subData.state">禁用
+                </label>
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        <label class="col-sm-4 control-label"><span class="text-danger">*</span>&nbsp;楼栋数</label>
-        <div class="col-sm-8">
-            <input type="number" [disabled]="isEdit" class="form-control" min="1" max="99" id="buildingNum" [(ngModel)]="subData.buildingNum" placeholder="请输入楼栋数"/>
-        </div>
+    <div  *ngIf="showdiv==2">
+
+            <div class="form-group">
+                    <label class="col-sm-4 control-label"><span class="text-danger">*</span>&nbsp;用户名</label>
+                    <div class="col-sm-8">
+                        <input type="text" [disabled]="isEdit" class="form-control" id="userName" [(ngModel)]="subData1.userName" placeholder="请输入用户名"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span class="text-danger">*</span>&nbsp;登录名</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="loginName" [(ngModel)]="subData1.loginName" placeholder="请输入登录名"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span class="text-danger">*</span>&nbsp;密码</label>
+                    <div class="col-sm-8">
+                        <input type="text" [disabled]="isEdit" class="form-control" id="password" [(ngModel)]="subData1.password" placeholder="请输入参数中文名"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">&nbsp;手机号</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="mobile" [(ngModel)]="subData1.mobile" placeholder="请输入手机号"/>
+                    </div>
+                </div>
+               
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">&nbsp;状态</label>
+                    <div class="col-sm-8">
+                        <label class="radio-inline">
+                            <input type="radio" name="state" value="10" [(ngModel)]="subData1.state">正常
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="state" value="20" [(ngModel)]="subData1.state">禁用
+                        </label>
+                    </div>
+                </div>
     </div>
-    <div class="form-group">
-        <label class="col-sm-4 control-label">省份</label>
-        <div class="col-sm-8">
-            <select #province class="form-control" (change)="selectProvince(province)" name="provinceCode"  [(ngModel)]="subData.provinceCode">
-                <option *ngFor="let opt of provinces" value="{{opt.code}}">{{opt.name}}</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-sm-4 control-label">城市</label>
-        <div class="col-sm-8">
-            <select #city class="form-control" name="cityCode" (change)="selectCity(city)"  [(ngModel)]="subData.cityCode">
-                <option *ngFor="let opt of citys" value="{{opt.code}}">{{opt.name}}</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-sm-4 control-label">区县</label>
-        <div class="col-sm-8">
-            <select #area class="form-control" name="areaCode" (change)="selectArea(area)"  [(ngModel)]="subData.areaCode">
-                <option *ngFor="let opt of areas" value="{{opt.code}}">{{opt.name}}</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-sm-4 control-label"><span class="text-danger">*</span>&nbsp;地址</label>
-        <div class="col-sm-8">
-            <input type="text" class="form-control" id="address" [(ngModel)]="subData.address" placeholder="请输入地址"/>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-sm-4 control-label">&nbsp;状态</label>
-        <div class="col-sm-8">
-            <label class="radio-inline">
-                <input type="radio" name="state" value="10" [(ngModel)]="subData.state">正常
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="state" value="20" [(ngModel)]="subData.state">禁用
-            </label>
-        </div>
-    </div>
+
+
+    <div  *ngIf="showdiv==3">
+
+        <div class="form-group">
+                <label class="col-sm-4 control-label"><span class="text-danger">*</span>&nbsp;用户名</label>
+                <div class="col-sm-8">
+                    <input type="text" disabled="disabled" class="form-control" id="userName" [(ngModel)]="subData1.userName" placeholder="请输入用户名"/>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-sm-4 control-label"><span class="text-danger">*</span>&nbsp;密码</label>
+                <div class="col-sm-8">
+                    <input type="text"  class="form-control" id="password" [(ngModel)]="subData1.password" placeholder="请输修改密码"/>
+                </div>
+            </div>
+            <!-- <div class="form-group">
+                <label class="col-sm-4 control-label">&nbsp;手机号</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="mobile" [(ngModel)]="subData1.mobile" placeholder="请输入手机号"/>
+                </div>
+            </div> -->
+</div>
 </div>
 
 <!--关联管理员页面-->
@@ -128,3 +213,5 @@
         </label>
     </div>
 </div>
+
+<!-- 新增管理员页面 -->
