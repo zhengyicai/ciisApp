@@ -182,6 +182,7 @@ export class CommunityPage {
     */
     showEditPanel(item:any){
         this.isEdit = true;
+        this.showdiv = 1;
         this.subData = Utils.copyObject(item);
         this.loadCity(item.provinceCode);
         this.loadArea(item.cityCode);

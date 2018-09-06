@@ -5,6 +5,7 @@
         <input type="text" class="form-control" (keydown)="queryData($event)" id="criteria" [(ngModel)]="criteria" placeholder="请输入设备[编号|名称]"/>
         <span class="input-group-btn">
             <button type="button" class="btn btn-success" (click)="query()"><span class="fa fa-search"></span> 查询</button>
+            <button type="button" class="btn btn-primary" (click)="showAddPanel()" style="margin-left:30px"><span class="fa fa-plus-circle"></span> 刷新</button>
         </span>
     </div>
 </div>
@@ -12,6 +13,7 @@
 <!--按钮区域-->
 <div class="button-box text-right">
     <button type="button" class="btn btn-primary" (click)="showAddPanel()"><span class="fa fa-plus-circle"></span> 新增</button>
+   
 </div>
 
 <!--数据显示区域-->
@@ -25,6 +27,8 @@
                 <th>楼栋</th>
                 <th>单元</th>
                 <th>状态</th>
+                <th>最新请求时间</th>
+                <th>最新门磁状态</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -37,6 +41,8 @@
                 <td *ngIf="item.unitName">{{item.unitName}}单元</td>
                 <td *ngIf="!item.unitName">{{item.unitName}}</td>
                 <td>{{utils.formatState(item.state)}}</td>
+                <td>{{utils.formatDate(item.nowDate,'yyyy-MM-dd HH:mm:ss')}}</td>
+                <td>{{item.nowState}}</td>
                 <td>
                     <button type="button" (click)="deleteItem(item)" class="btn btn-danger btn-xs">删除</button>
                 </td>
