@@ -8,8 +8,10 @@
     <div class="row">
         <div class="col-xs-2 text-left" style="padding:0">
             <tree [tree]="tree" (nodeSelected)="onNodeSelected($event)"></tree>
+            
         </div>
-        <div class="col-xs-10">
+        <div class="col-xs-10 text-right">
+                <button  type="button" (click)="createRoom()" class="btn btn-success">新增</button>
             <!--数据显示区域-->
             <div class="table-box">
                 <table class="table table-bordered table-hover">
