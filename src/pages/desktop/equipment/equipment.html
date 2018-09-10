@@ -27,7 +27,7 @@
                 <th>楼栋</th>
                 <th>单元</th>
                 <th>状态</th>
-                <th>最新请求时间</th>
+                <th>最新设备状态</th>
                 <th>最新门磁状态</th>
                 <th>操作</th>
             </tr>
@@ -41,8 +41,8 @@
                 <td *ngIf="item.unitName">{{item.unitName}}单元</td>
                 <td *ngIf="!item.unitName">{{item.unitName}}</td>
                 <td>{{utils.formatState(item.state)}}</td>
-                <td>{{utils.formatDate(item.nowDate,'yyyy-MM-dd HH:mm:ss')}}</td>
-                <td>{{item.nowState}}</td>
+                <td><span class="span" *ngIf="item.nowDateStatus=='离线'"><i class="tip"></i></span> <span class="span" *ngIf="item.nowDateStatus=='在线'"><i class="tip" style="background:green;"></i></span>{{item.nowDateStatus}}</td>
+                <td><span class="span" *ngIf="item.nowState=='离线'"><i class="tip"></i></span> <span class="span" *ngIf="item.nowState=='在线'"><i class="tip" style="background:green;"></i></span>{{item.nowState}}</td>
                 <td>
                     <button type="button" (click)="deleteItem(item)" class="btn btn-danger btn-xs">删除</button>
                 </td>

@@ -166,4 +166,51 @@ export class BuildingPage {
         });
     }
 
+    /**
+     * 
+     */
+    showAddPanel(){
+        this.subData ={
+            "communityId":this.communityId,
+            "unitNumber":1,
+            "floorNumber":1,
+            "roomNumber":1,
+            "buildingNo":"",   
+            "unitName":""
+        }
+       
+        layer.open({
+            title: "生成房间",
+            btn: ["保存","退出"],
+            type: 1,
+            closeBtn: 0,
+            shade: 0,
+            fixed: true,
+            shadeClose: false,
+            resize: false,
+            area: ['350px','auto'],
+            content: $("#editPanel"),
+            yes: function(index:number){
+                nowPage.httpService.post({
+                    url:'/cms/building/createRoom',
+                    data:nowPage.subData
+                }).subscribe((data:any)=>{
+                    layer.closeAll();
+                    if(data.code==='0000'){
+                        //生成成功
+                       layer.msg(data.message,{
+                           icon: '1',
+                           time: 2000
+                       },function(){
+                           nowPage.loadCommunityData();
+                       });
+                    }else if(data.code==='9999'){
+                        Utils.show(data.message);
+                    }else{
+                        Utils.show("系统异常，请联系管理员");
+                    }
+                });
+            }
+        });
+    }
 }
