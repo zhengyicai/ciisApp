@@ -19,7 +19,7 @@
                         <tr class="active">
                             <th>楼栋编号</th>
                             <th>楼栋名称</th>
-                            <th>单元数</th>
+                            <th>单元名称</th>
                             <th>层数</th>
                             <th>层户数</th>
                             <th>状态</th>
@@ -30,7 +30,7 @@
                         <tr *ngFor="let item of httpService.items">
                             <td>{{item.buildingNo}}</td>
                             <td>{{item.buildingName}}</td>
-                            <td>{{item.unitNumber}}</td>
+                            <td>{{item.unitName}}</td>
                             <td>{{item.floorNumber}}</td>
                             <td>{{item.roomNumber}}</td>
                             <td>{{utils.formatState(item.state)}}</td>
@@ -88,9 +88,9 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-4 control-label">单元号</label>
+        <label class="col-sm-4 control-label">单元名称</label>
         <div class="col-sm-8">
-            <input type="text" class="form-control" id="unitName" [(ngModel)]="subData.unitName" placeholder="请输入单元号"/>
+            <input type="text" class="form-control" id="unitName" [(ngModel)]="subData.unitName" placeholder="请输入单元名称"/>
         </div>
     </div>
     <div class="form-group">

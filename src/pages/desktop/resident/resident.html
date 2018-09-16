@@ -39,6 +39,8 @@
                     <button type="button" (click)="deleteItem(item)" class="btn btn-danger btn-xs">删除</button>
                     <button *ngIf="item.state==='10'" type="button" (click)="updateState(item,'20')" class="btn btn-warning btn-xs">禁用</button>
                     <button *ngIf="item.state==='20'" type="button" (click)="updateState(item,'10')" class="btn btn-success btn-xs">启用</button>
+                    <button *ngIf="item.state==='30'" type="button" (click)="updateState(item,'10')" class="btn btn-success btn-xs">授权</button>
+                    
                 </td>
             </tr>
         </tbody>

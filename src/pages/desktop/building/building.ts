@@ -180,7 +180,7 @@ export class BuildingPage {
         }
        
         layer.open({
-            title: "生成房间",
+            title: "新增",
             btn: ["保存","退出"],
             type: 1,
             closeBtn: 0,
