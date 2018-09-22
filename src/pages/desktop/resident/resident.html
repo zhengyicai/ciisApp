@@ -24,6 +24,7 @@
                 <th>所属小区</th>
                 <th>创建时间</th>
                 <th>状态</th>
+                <th>留言</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -34,6 +35,7 @@
                 <td>{{item.communityName}}</td>
                 <td>{{utils.formatDate(item.createTime,'yyyy-MM-dd HH:mm:ss')}}</td>
                 <td>{{utils.formatState(item.state)}}</td>
+                <td>{{item.remark}}</td>
                 <td>
                     <button type="button" (click)="showRelationPanel(item)" class="btn btn-success btn-xs">住房信息</button>
                     <button type="button" (click)="deleteItem(item)" class="btn btn-danger btn-xs">删除</button>

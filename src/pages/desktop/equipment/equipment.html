@@ -42,7 +42,7 @@
                 <td *ngIf="!item.unitName">{{item.unitName}}</td>
                 <td>{{utils.formatState(item.state)}}</td>
                 <td><span class="span" *ngIf="item.nowDateStatus=='离线'"><i class="tip"></i></span> <span class="span" *ngIf="item.nowDateStatus=='在线'"><i class="tip" style="background:green;"></i></span>{{item.nowDateStatus}}</td>
-                <td><span class="span" *ngIf="item.nowState=='离线'"><i class="tip"></i></span> <span class="span" *ngIf="item.nowState=='在线'"><i class="tip" style="background:green;"></i></span>{{item.nowState}}</td>
+                <td><span class="span" *ngIf="item.nowState=='异常'"><i class="tip"></i></span> <span class="span" *ngIf="item.nowState=='正常'"><i class="tip" style="background:green;"></i></span>{{item.nowState}}</td>
                 <td>
                     <button type="button" (click)="deleteItem(item)" class="btn btn-danger btn-xs">删除</button>
                 </td>
