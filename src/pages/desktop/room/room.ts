@@ -80,10 +80,13 @@ export class RoomPage {
     * 选中节点
     */
     onNodeSelected(event:any){
-        if(!event.node.children){
+        //alert(event.node.node.id);
+        
+        if(event.node.children==""){
             this.httpService.currentPage = 1;
             this.unitId = event.node.node.id;
             this.buildingId = event.node.parent.node.id;
+            
             this.loadRoomData();
         }
     }
