@@ -70,7 +70,7 @@
             </select>
             <select #unit class="form-control" (change)="selectUnit(unit.selectedIndex)" [(ngModel)]="subData.unitId">
                 <option value="">所有</option>
-                <option *ngFor="let opt of units" value="{{opt.value}}">{{opt.name}}</option>
+                <option *ngFor="let opt of units" value="{{opt.id}}">{{opt.unitName}}</option>
             </select>
             <select #room class="form-control" (change)="selectRoom(room.selectedIndex)" [(ngModel)]="subData.roomId">
                 <option value="">所有</option>

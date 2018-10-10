@@ -106,7 +106,7 @@ export class EquipmentPage {
             return;
         }
         layer.open({
-            title: "添加住户信息",
+            title: "添加设备信息",
             btn: ["保存","退出"],
             type: 1,
             closeBtn: 0,

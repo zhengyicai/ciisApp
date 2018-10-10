@@ -285,7 +285,7 @@ export class MessagePage {
         if(idx==0){
             this.unitName = '';
         }else{
-            this.unitName = this.units[idx-1].name;
+            this.unitName = this.units[idx-1].unitName;
             this.loadRooms();
         }
     }
