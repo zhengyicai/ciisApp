@@ -35,8 +35,8 @@
                             <td>{{item.roomNumber}}</td>
                             <td>{{utils.formatState(item.state)}}</td>
                             <td>
-                                <button *ngIf="item.state==='10'" type="button" (click)="updateState(item.id,'20')" class="btn btn-danger btn-xs">禁用</button>
-                                <button *ngIf="item.state==='20'" type="button" (click)="updateState(item.id,'10')" class="btn btn-success btn-xs">启用</button>
+                                <button *ngIf="item.state=='10'" type="button" (click)="updateState(item.id,item.buildingId,'20')" class="btn btn-danger btn-xs">禁用</button>
+                                <button *ngIf="item.state=='20'" type="button" (click)="updateState(item.id,item.buildingId,'10')" class="btn btn-success btn-xs">启用</button>
                                 <button *ngIf="item.floorNumber===0" type="button" (click)="createRoom(item)" class="btn btn-warning btn-xs">生成房间</button>
                             </td>
                         </tr>

@@ -44,7 +44,7 @@
                     <!-- <button type="button" (click)="showAdmin(item)" class="btn btn-warning btn-xs">管理员</button> -->
                     <button type="button" *ngIf= 'item.sysUserId =="" ||  item.sysUserId ==null' (click)="showAddUser(item)" class="btn btn-info btn-xs">新增物业</button>
                     <button type="button" *ngIf= 'item.sysUserId !="" && item.sysUserId !=null' (click)="showUpdateUser(item)" class="btn btn-warning btn-xs">修改物业</button>
-                    <button type="button" *ngIf= 'item.sysUserId !="" && item.sysUserId !=null'  (click)="deleteItem(item)" class="btn btn-danger btn-xs">删除物业</button>
+                    <!-- <button type="button" *ngIf= 'item.sysUserId !="" && item.sysUserId !=null'  (click)="deleteItem(item)" class="btn btn-danger btn-xs">删除物业</button> -->
                 </td>
             </tr>
         </tbody>

@@ -82,7 +82,7 @@ export class BuildingPage {
     /**
     * 更新状态
     */
-    updateState(id:string,state:string){
+    updateState(id:string,buildingId:string,state:string){
         layer.confirm('您确定要执行此操作吗？', {
             btn: ['确定','取消'] //按钮
         }, function(){
@@ -90,7 +90,8 @@ export class BuildingPage {
                 url:'/cms/building/updateState',
                 data:{
                     id:id,
-                    state:state
+                    state:state,
+                    buildingNo:buildingId
                 }
             }).subscribe((data:any)=>{
                 layer.closeAll();
@@ -200,7 +201,7 @@ export class BuildingPage {
                         //生成成功
                        layer.msg(data.message,{
                            icon: '1',
-                           time: 2000
+                           time: 4000
                        },function(){
                            nowPage.loadCommunityData();
                        });

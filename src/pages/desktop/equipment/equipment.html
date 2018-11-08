@@ -1,7 +1,7 @@
 
 <!--搜索区域-->
 <div class="search-box">
-    <div class="input-group col-md-4" style="margin-top:0px positon:relative">
+    <div class="input-group col-md-4" style="margin-top:0px;position:relative">
         <input type="text" class="form-control" (keydown)="queryData($event)" id="criteria" [(ngModel)]="criteria" placeholder="请输入设备[编号|名称]"/>
         <span class="input-group-btn">
             <button type="button" class="btn btn-success" (click)="query()"><span class="fa fa-search"></span> 查询</button>
