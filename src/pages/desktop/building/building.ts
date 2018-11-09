@@ -174,8 +174,8 @@ export class BuildingPage {
         this.subData ={
             "communityId":this.communityId,
             "unitNumber":1,
-            "floorNumber":1,
-            "roomNumber":1,
+            "floorNumber":"",
+            "roomNumber":"",
             "buildingNo":"",   
             "unitName":""
         }
@@ -189,29 +189,90 @@ export class BuildingPage {
             fixed: true,
             shadeClose: false,
             resize: false,
-            area: ['350px','auto'],
+            area: ['400px','auto'],
             content: $("#editPanel"),
             yes: function(index:number){
-                nowPage.httpService.post({
-                    url:'/cms/building/createRoom',
-                    data:nowPage.subData
-                }).subscribe((data:any)=>{
-                    layer.closeAll();
-                    if(data.code==='0000'){
-                        //生成成功
-                       layer.msg(data.message,{
-                           icon: '1',
-                           time: 4000
-                       },function(){
-                           nowPage.loadCommunityData();
-                       });
-                    }else if(data.code==='9999'){
-                        Utils.show(data.message);
-                    }else{
-                        Utils.show("系统异常，请联系管理员");
-                    }
-                });
+                if(nowPage.validator()){
+                    nowPage.httpService.post({
+                        url:'/cms/building/createRoom',
+                        data:nowPage.subData
+                    }).subscribe((data:any)=>{
+                        layer.closeAll();
+                        if(data.code==='0000'){
+                            //生成成功
+                           layer.msg(data.message,{
+                               icon: '1',
+                               time: 4000
+                           },function(){
+                               nowPage.loadCommunityData();
+                           });
+                        }else if(data.code==='9999'){
+                            Utils.show(data.message);
+                        }else{
+                            Utils.show("系统异常，请联系管理员");
+                        }
+                    });
+                }        
+                
             }
         });
+    }
+
+
+    validator(){
+      
+        
+        if(Utils.isEmpty(this.subData.buildingNo)){
+            layer.tips('楼栋号不能为空', '#buildingNo',{tips: 1});
+            $("#buildingNo").focus();
+            return false;
+        }
+
+        if(Utils.isEmpty(this.subData.unitName)){
+            layer.tips('单元号不能为空', '#unitName',{tips: 1});
+            $("#unitName").focus();
+            return false;
+        }
+
+        if(Utils.isEmpty(this.subData.floorNumber)){
+            layer.tips('楼层数不能为空', '#floorNumber',{tips: 1});
+            $("#floorNumber").focus();
+            return false;
+        }
+
+        if(Utils.isEmpty(this.subData.roomNumber)){
+            layer.tips('每层户数不能为空', '#roomNumber',{tips: 1});
+            $("#roomNumber").focus();
+            return false;
+        }
+       
+        
+        
+        if( this.subData.buildingNo<1  || this.subData.buildingNo>99 ){
+            layer.tips('楼栋号输入范围为0-99', '#buildingNo',{tips: 1});
+            $("#buildingNo").focus();
+            return false;
+        }
+        
+        if(this.subData.unitName<1  || this.subData.unitName>99){
+            layer.tips('单元号输入范围为0-99', '#unitName',{tips: 1});
+            $("#unitName").focus();
+            return false;
+        }
+
+        
+
+        if( this.subData.floorNumber<1  || this.subData.floorNumber>99 ){
+            layer.tips('楼层数输入范围为0-99', '#floorNumber',{tips: 1});
+            $("#floorNumber").focus();
+            return false;
+        }
+        
+        if(this.subData.roomNumber<1  || this.subData.roomNumber>99){
+            layer.tips('每层户数输入范围为0-99', '#roomNumber',{tips: 1});
+            $("#roomNumber").focus();
+            return false;
+        }  
+        return true;
     }
 }

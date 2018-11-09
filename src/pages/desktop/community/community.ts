@@ -195,7 +195,7 @@ export class CommunityPage {
             fixed: true,
             shadeClose: false,
             resize: false,
-            area: ['350px','auto'],
+            area: ['350px','500px'],
             content: $("#editPanel"),
             yes: function(index:number){
                 if(nowPage.validator()){
@@ -244,7 +244,7 @@ export class CommunityPage {
                     fixed: true,
                     shadeClose: false,
                     resize: false,
-                    area: ['380px','auto'],
+                    area: ['380px','500px'],
                     content: $("#adminPanel"),
                     yes: function(index:number){
                         let userIds = new Array();
@@ -289,6 +289,7 @@ export class CommunityPage {
     showAddUser(item:any){
         this.showdiv = 2;
         this.isEditUser = false;
+        this.isEdit = false;
         this.subData1 = {
             userName: '',
             loginName: '',
@@ -454,21 +455,7 @@ export class CommunityPage {
             $("#communityName").focus();
             return false;
         }
-        // if(Utils.isEmpty(this.subData.buildingNum)){
-        //     layer.tips('楼栋数不能为空', '#buildingNum',{tips: 1});
-        //     $("#buildingNum").focus();
-        //     return false;
-        // }
-        // if(isNaN(this.subData.buildingNum)){
-        //     layer.tips('楼栋数输入有误', '#buildingNum',{tips: 1});
-        //     $("#buildingNum").select();
-        //     return false;
-        // }
-        // if(this.subData.buildingNum<1 || this.subData.buildingNum>99){
-        //     layer.tips('楼栋数只能输入1～99', '#buildingNum',{tips: 1});
-        //     $("#buildingNum").select();
-        //     return false;
-        // }
+      
 
 
 
